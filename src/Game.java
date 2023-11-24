@@ -7,13 +7,46 @@ import java.nio.file.Path;
 import java.util.*;
 
 public class Game {
-    
+
     public static void main(String[] args) throws IOException {
         Scanner userScanner = new Scanner(System.in);
-        List<String> moviesList = Files.readAllLines(Path.of("moviesList.txt"));
-        String[] movies = moviesList.toArray(new String[moviesList.size()]);
-        String selectedMovie = selectRandomMovie(movies).toUpperCase();
-        //System.out.println("The randomly selected Movie Title is: " + selectedMovie);
+        System.out.println("""
+                Choose the Category:
+                1. Film
+                2. Serie TV
+                3. Capitali
+  
+                """);
+        int categoria = userScanner.nextInt();
+        while (categoria>3){
+            System.out.println("scelta non valida. Scegliere numero tra 1 e 3");
+            categoria = userScanner.nextInt();
+        }
+        List<String> lista = new ArrayList<>();
+        switch (categoria){
+            case 1 -> {
+                 lista = Files.readAllLines(Path.of("listaFilm.txt"));
+            }
+            case 2 -> {
+                lista = Files.readAllLines(Path.of("listaSerieTv.txt"));
+            }
+            case 3 -> {
+                lista = Files.readAllLines(Path.of("listaCity.txt"));
+            }
+            default -> {
+                System.out.println("Incorrect!!");
+                break;
+            }
+
+        }
+
+        //List<String> moviesList = Files.readAllLines(Path.of("moviesList.txt"));
+        //String[] movies = moviesList.toArray(new String[moviesList.size()]);
+        String[] listaToArray = lista.toArray(new String[lista.size()]);
+
+
+        String selectedMovie = selectRandomWord(listaToArray).toUpperCase();
+        //System.out.println("The randomly selected Word is: " + selectedMovie);
 
 
         Gallows gallows = new Gallows(selectedMovie);
@@ -21,8 +54,6 @@ public class Game {
         gallows.displayHangman();
 
         System.out.println(displayAsLines(selectedMovie));
-
-        // TODO: 05/10/2023 create a game loop from here
 
 
         while (gallows.errorCount > 0) {
@@ -34,7 +65,7 @@ public class Game {
             boolean checkGuess = isCharInTitle(userGuess, selectedMovie);
 
             if (gallows.getLettersGuessed().contains(userGuess)) {
-                System.out.println("You already tried this letter. Please input a different letter2");
+                System.out.println("You already tried this letter. Please input a different letter");
             }else if (!checkGuess) {
                 System.out.println("Wrong guess!");
                 gallows.getLettersGuessed().add(userGuess);
@@ -46,6 +77,11 @@ public class Game {
 
             }
             revealTitle(selectedMovie, gallows.getLettersGuessed());
+            if (gallows.errorCount == 0){
+                System.out.println();
+                System.out.println("You lost!");
+                System.out.println("The answer is: "+gallows.getMovieChoice());
+            }
             boolean hasUserWon = hasWon(gallows.getMovieChoice(), gallows.getLettersGuessed());
             if (hasUserWon){
                 System.out.println();
@@ -57,7 +93,8 @@ public class Game {
 
     }
 
-    public static String selectRandomMovie(String[] stringArray) {
+
+    public static String selectRandomWord(String[] stringArray) {
         Random random = new Random();
         int selectedInt = (random.nextInt(0, stringArray.length - 1));
         return stringArray[selectedInt];
