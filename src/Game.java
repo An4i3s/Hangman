@@ -34,7 +34,7 @@ public class Game {
                 lista = Files.readAllLines(Path.of("listaCity.txt"));
             }
             default -> {
-                System.out.println("Scelta on valida!!");
+                System.out.println("Scelta non valida!!");
                 break;
             }
 
