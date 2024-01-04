@@ -20,12 +20,10 @@ public class Gallows {
 
     protected int errorCount = 6;
 
-    //non in uso eliminare?
     public Gallows(String[] initialState) {
         this.initialState = initialState;
     }
 
-    //non in uso eliminare?
     public Gallows() {
     }
 
@@ -33,7 +31,6 @@ public class Gallows {
         this.movieChoice = movieChoice;
     }
 
-    //non in uso eliminare?
     public Gallows(int errorCount) {
         this.errorCount = errorCount;
     }
@@ -69,57 +66,57 @@ public class Gallows {
                             """);
             case 4 -> System.out.println(
                     """
-                       +---+
-                       |   |
-                       O   |
-                       |   |
+                     +-----+
+                     |     |
+                     O     |
+                     |     |
                            |
                            |
-                     =========
+                   ===========
                             """);
 
             case 3 -> System.out.println(
                     """
-                       +---+
-                       |   |
-                       O   |
-                      —|   |
+                     +-----+
+                     |     |
+                     O     |
+                   --|     |
                            |
                            |
-                     =========
+                  ===========
                             """);
 
             case 2 -> System.out.println(
                     """
-                       +---+
-                       |   |
-                       O   |
-                      —|—  |
+                     +-----+
+                     |     |
+                     O     |
+                   --|--   |
                            |
                            |
-                     =========
+                   ==========
                             """);
 
             case 1 -> System.out.println(
                     """
-                       +---+
-                       |   |
-                       O   |
-                      —|—  |
-                      ↙    |
+                     +-----+
+                     |     |
+                     O     |
+                   --|--   |
+                    |      |
                            |
-                     =========
+                    ==========
                             """);
 
             case 0 -> System.out.println(
                     """
-                       +---+
-                       |   |
-                       O   |
-                      —|—  |
-                      ↙ ↘  |
+                     +-----+
+                     |     |
+                     O     |
+                   --|--   |
+                    | |    |
                            |
-                     =========
+                    ==========
                             """);
 
             default-> System.out.println("invalid error count");

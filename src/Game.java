@@ -11,7 +11,7 @@ public class Game {
     public static void main(String[] args) throws IOException {
         Scanner userScanner = new Scanner(System.in);
         System.out.println("""
-                Choose the Category:
+                Scegli la Categoria:
                 1. Film
                 2. Serie TV
                 3. Capitali
@@ -34,14 +34,13 @@ public class Game {
                 lista = Files.readAllLines(Path.of("listaCity.txt"));
             }
             default -> {
-                System.out.println("Incorrect!!");
+                System.out.println("Scelta on valida!!");
                 break;
             }
 
         }
 
-        //List<String> moviesList = Files.readAllLines(Path.of("moviesList.txt"));
-        //String[] movies = moviesList.toArray(new String[moviesList.size()]);
+      
         String[] listaToArray = lista.toArray(new String[lista.size()]);
 
 
@@ -50,42 +49,49 @@ public class Game {
 
 
         Gallows gallows = new Gallows(selectedMovie);
+        //è necessario aggiungere un carattere spazio " " a getLettersGuessed altrimenti non si verifica mai condizione hasWon nelle stringhe dei titoli che presentano spazi
         gallows.getLettersGuessed().add(' ');
         gallows.displayHangman();
 
         System.out.println(displayAsLines(selectedMovie));
+        
 
 
         while (gallows.errorCount > 0) {
-            System.out.println();
-            System.out.println("Enter a letter:");
+            System.out.println(" ");
+            System.out.println("Inserisci una lettera:");
             char userGuess = userScanner.next().charAt(0);
             userGuess = Character.toUpperCase(userGuess);
-            System.out.println("User Guess is = " + userGuess);
+            System.out.println("Hai scelto = " + userGuess);
             boolean checkGuess = isCharInTitle(userGuess, selectedMovie);
 
             if (gallows.getLettersGuessed().contains(userGuess)) {
-                System.out.println("You already tried this letter. Please input a different letter");
+                System.out.println("Hai già tentato questa lettera. Inserire lettera diversa.");
             }else if (!checkGuess) {
-                System.out.println("Wrong guess!");
+                System.out.println("Sbagliato!");
                 gallows.getLettersGuessed().add(userGuess);
+                
                 gallows.errorCount--;
                 gallows.displayHangman();
-                System.out.println("You have " + gallows.errorCount + " guess left");
+                System.out.println("Tentativi rimasti: " + gallows.errorCount);
             } else {
                 gallows.getLettersGuessed().add(userGuess);
 
             }
+            System.out.println("Tentativi precedenti: "+gallows.getLettersGuessed());
+
+            System.out.println(" ");
             revealTitle(selectedMovie, gallows.getLettersGuessed());
+            System.out.println(" ");
             if (gallows.errorCount == 0){
                 System.out.println();
-                System.out.println("You lost!");
-                System.out.println("The answer is: "+gallows.getMovieChoice());
+                System.out.println("Hai perso!");
+                System.out.println("La risposta era: "+gallows.getMovieChoice());
             }
             boolean hasUserWon = hasWon(gallows.getMovieChoice(), gallows.getLettersGuessed());
             if (hasUserWon){
                 System.out.println();
-                System.out.println("Congrats! you won!");
+                System.out.println("Complimenti! Hai vinto!");
                 break;
             }
         }
@@ -108,6 +114,7 @@ public class Game {
             return false;
         }
     }
+    
     public static String displayAsLines(String title) {
         char[] titleArray = title.toCharArray();
         for (int i = 0; i < titleArray.length; i++) {
