@@ -62,7 +62,6 @@ public class Game {
                 boolean vero = indovinaParolaCompleta(selectedMovie);
 
                 if (vero) {
-                    // System.out.println("Complimenti hai vinto!");
                     break;
                 } else {
                     gallows.errorCount--;
@@ -84,16 +83,26 @@ public class Game {
 
                     gallows.errorCount--;
                     gallows.displayHangman();
-                    System.out.println("Tentativi rimasti: " + gallows.errorCount);
+                    //System.out.println("Tentativi rimasti: " + gallows.errorCount);
                 } else {
                     gallows.getLettersGuessed().add(userGuess);
 
                 }
-                System.out.println("Tentativi precedenti: " + gallows.getLettersGuessed());
-                
-            System.out.println(" ");
+            
+            //System.out.println(" ");
+            System.out.println("\033[H\033[2J");
+
             revealTitle(selectedMovie, gallows.getLettersGuessed());
             System.out.println(" ");
+            System.out.println(" ");
+            System.out.println("Tentativi precedenti: " + gallows.getLettersGuessed());
+            System.out.println(" ");
+            System.out.println("N° di Tentativi rimasti: " + gallows.errorCount);
+            System.out.println(" ");
+            gallows.displayHangman();
+            //System.out.println(" ");
+            
+
             if (gallows.errorCount == 0) {
                 System.out.println();
                 System.out.println("Hai perso!");
@@ -106,7 +115,6 @@ public class Game {
                 break;
             }
             }
-
         }
         userScanner.close();
 
@@ -143,7 +151,7 @@ public class Game {
 
     public static void revealTitle(String title, List<Character> guessedLetter) {
 
-        Character[] guessedLetterArray = guessedLetter.toArray(new Character[0]);
+        //Character[] guessedLetterArray = guessedLetter.toArray(new Character[0]);
         char[] titleChar = title.toCharArray();
 
         for (int i = 0; i < title.length(); i++) {
@@ -161,7 +169,7 @@ public class Game {
 
     public static boolean hasWon(String title, List<Character> guessedLetter) {
         char[] titleArray = title.toCharArray();
-        ArrayList<Character> letterList = new ArrayList<>(guessedLetter);
+        //ArrayList<Character> letterList = new ArrayList<>(guessedLetter);
 
         boolean flag = false;
         int i = 0;
