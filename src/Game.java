@@ -7,6 +7,7 @@ import java.util.*;
 
 public class Game {
 
+    static String punteggiatura = ".,?!;:-_";
     public static void main(String[] args) throws IOException {
         Scanner userScanner = new Scanner(System.in);
         System.out.println("""
@@ -56,9 +57,9 @@ public class Game {
         while (gallows.errorCount > 0) {
             System.out.println(" ");
 
-            System.out.println("Inserisci una lettera. Se vuoi provare a indovinare la risposta completa premi 1");
+            System.out.println("Inserisci una lettera. Se vuoi provare a indovinare la risposta completa scrivi '$'");
             char userGuess = userScanner.next().charAt(0);
-            if (userGuess == '1') {
+            if (userGuess == '$') {
                 boolean vero = indovinaParolaCompleta(selectedMovie);
 
                 if (vero) {
@@ -140,6 +141,8 @@ public class Game {
         for (int i = 0; i < titleArray.length; i++) {
             if (titleArray[i] == ' ') {
                 titleArray[i] = ' ';
+            } else if (punteggiatura.indexOf(titleArray[i]) > 0) {
+                titleArray[i] = titleArray[i];
             } else {
                 titleArray[i] = '_';
             }
@@ -151,15 +154,16 @@ public class Game {
 
     public static void revealTitle(String title, List<Character> guessedLetter) {
 
-        //Character[] guessedLetterArray = guessedLetter.toArray(new Character[0]);
+
         char[] titleChar = title.toCharArray();
 
         for (int i = 0; i < title.length(); i++) {
             if (titleChar[i] == ' ') {
                 System.out.print(' ');
-                ;
             } else if (guessedLetter.contains(titleChar[i])) {
                 System.out.print(titleChar[i]);
+            } else if (punteggiatura.indexOf(titleChar[i]) > 0) {
+                System.out.println(titleChar[i]);
             } else {
                 System.out.print("_");
             }
@@ -169,7 +173,6 @@ public class Game {
 
     public static boolean hasWon(String title, List<Character> guessedLetter) {
         char[] titleArray = title.toCharArray();
-        //ArrayList<Character> letterList = new ArrayList<>(guessedLetter);
 
         boolean flag = false;
         int i = 0;
